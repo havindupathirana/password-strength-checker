@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Password Strength Checker</title>
+    <link rel="stylesheet" href="/static/style.css">
+</head>
+<body>
+    <div class="container">
+        <h1>🔐 Password Strength Checker</h1>
+        <p class="subtitle">Check how strong your password is</p>
+
+        <div class="input-group">
+            <input type="password" id="passwordInput" placeholder="Enter your password..." oninput="checkPassword()">
+            <button onclick="toggleVisibility()">👁</button>
+        </div>
+
+        <div id="result" class="result hidden">
+            <div id="strengthBadge" class="badge"></div>
+            <div id="scoreText" class="score"></div>
+            <ul id="feedbackList" class="feedback"></ul>
+        </div>
+    </div>
+
+    <script>
+        async function checkPassword() {
+            const password = document.getElementById('passwordInput').value;
+            const result = document.getElementById('result');
+
+            if (password.length === 0) {
+                result.classList.add('hidden');
+                return;
+            }
+
+            const response = await fetch('/check', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ password })
+            });
+
+            const data = await response.json();
+
+            document.getElementById('strengthBadge').textContent = data.strength;
+            document.getElementById('strengthBadge').style.backgroundColor = data.color;
+            document.getElementById('scoreText').textContent = `Score: ${data.score}`;
+
+            const feedbackList = document.getElementById('feedbackList');
+            feedbackList.innerHTML = '';
+            data.feedback.forEach(item => {
+                const li = document.createElement('li');
+                li.textContent = item;
+                feedbackList.appendChild(li);
+            });
+
+            result.classList.remove('hidden');
+        }
+
+        function toggleVisibility() {
+            const input = document.getElementById('passwordInput');
+            input.type = input.type === 'password' ? 'text' : 'password';
+        }
+    </script>
+</body>
+</html>
