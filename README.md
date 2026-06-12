@@ -35,6 +35,9 @@ A web-based password strength checker built with Python and Flask. Evaluates pas
 ```
 
 4. Open your browser and go to
+   ```
+   http://localhost:5000
+   ```
 ## How It Works
 
 Passwords are scored based on:
