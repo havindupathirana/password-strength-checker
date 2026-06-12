@@ -20,7 +20,7 @@ A web-based password strength checker built with Python and Flask. Evaluates pas
 
 1. Clone the repository
 ```bash
-   git clone https://github.com/yourusername/password-strength-checker.git
+   git clone https://github.com/havindupathirana/password-strength-checker.git
    cd password-strength-checker
 ```
 
